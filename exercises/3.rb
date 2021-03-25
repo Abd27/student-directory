@@ -15,37 +15,23 @@ def input_students
   end
   #return the student array.
   students
-end
-def specific(names)
-  specific_students = []
-  puts "Enter the initial letter"
-  input = gets.chomp.upcase
-  names.each do |student|
-    if student[:name][0] == input && student[:name].length < 12
-      specific_students.push(student)
-    end
-  end
-  specific_students
 end  
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
-def print_specific(names)
-  names.each.with_index(1) do |student, index|    
-      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)}" 
-  end 
-end
+def print(names)
+  names.each do |student|
+    if student[:name].length < 12
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
+end    
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students for this catagory"
+  puts "Overall, we have #{names.count} great students"
 end
-
-       
-
 #now calling the methods
-students = specific(input_students)
-
+students = input_students
 print_header
-print_specific(students)
+print(students)
 print_footer(students)
-
