@@ -45,13 +45,13 @@ def specific(names)
   specific_students
 end  
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(115)
+  puts "------------".center(115)
 end
 def print_specific(names)
   counter = 0
   while counter < names.length do    
-    puts "#{counter + 1}. #{names[counter][:name]} (#{names[counter][:cohort]} cohort), hobby: #{names[counter][:hobby]}, C.O.B: #{names[counter][:cob]}, height: #{names[counter][:height]}cm"
+    puts "#{counter + 1}. #{names[counter][:name]} (#{names[counter][:cohort]} cohort), hobby: #{names[counter][:hobby]}, C.O.B: #{names[counter][:cob]}, height: #{names[counter][:height]}cm".center(115)
       counter += 1 
   end 
 end
