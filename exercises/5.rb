@@ -30,41 +30,21 @@ def input_students
   end
   #return the student array.
   students
-end
-def specific(names)
-  specific_students = []
-  puts "Enter the initial letter"
-  input = gets.chomp.upcase
-  counter = 0
-  while counter < names.length do
-    if names[counter][:name][0] == input && names[counter][:name].length < 12
-      specific_students.push(names[counter])
-    end
-    counter += 1
-  end
-  specific_students
 end  
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
-def print_specific(names)
-  counter = 0
-  while counter < names.length do    
-    puts "#{counter + 1}. #{names[counter][:name]} (#{names[counter][:cohort]} cohort), hobby: #{names[counter][:hobby]}, C.O.B: #{names[counter][:cob]}, height: #{names[counter][:height]}cm"
-      counter += 1 
-  end 
-end
+def print(names)
+  names.each.with_index(1) do |student, index|
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort), hobby: #{student[:hobby]}, C.O.B: #{student[:cob]}, height: #{student[:height]}cm"
+  end
+end    
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students for this catagory"
-end
-
-       
-
+  puts "Overall, we have #{names.count} great students"
+end   
 #now calling the methods
-students = specific(input_students)
-
+students = input_students
 print_header
-print_specific(students)
+print(students)
 print_footer(students)
-
