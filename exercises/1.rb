@@ -27,10 +27,6 @@ def print(names)
 end    
 def print_footer(names)
   puts "Overall, we have #{names.count} great students"
-end
-def initial_letter(names)
-  puts "Enter the initial letter"
-  input = gets.chomp.upcase
 end   
 #now calling the methods
 students = input_students
