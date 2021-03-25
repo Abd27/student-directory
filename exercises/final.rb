@@ -1,7 +1,7 @@
 def input_students
   #create an empty array.
   month = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
-  'august', 'september', 'octobar', 'november', 'december']
+  'august', 'september', 'octobar', 'november', 'december', 'N/A']
   #create an empty array.
   students = []
   
@@ -31,7 +31,8 @@ def input_students
     height = gets.chomp
     #add a student hash to our array.
     students << {
-      name: name, 
+      name: name,
+      month_index: month.index(cohort), 
       cohort: cohort.to_sym,
       hobby: hobby,
       cob: cob,
@@ -46,6 +47,12 @@ def input_students
   #return the student array.
   students
 end
+def arrange_by_cohort(names)
+  arranged = names.sort_by do |student|
+    student[:month_index]
+  end
+  arranged
+end  
 def specific(names)
   specific_students = []
   puts "Enter the initial letter"
@@ -77,8 +84,7 @@ end
        
 
 #now calling the methods
-students = specific(input_students)
-
+students = specific(arrange_by_cohort(input_students))
 print_header
 print_specific(students)
 print_footer(students)
