@@ -38,7 +38,7 @@ def input_students
       cob: cob,
       height: height
       }
-    puts "Now we have #{students.count} students"
+    puts students.length == 1 ? "Now we have #{students.count} student" : "Now we have #{students.count} students"  
      #get another name from user.
      puts "press return to add another student or type 'stop' to finish"
      input = gets.chomp
