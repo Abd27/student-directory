@@ -69,7 +69,7 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.gsub!("\n", "").split(",")
+    name, cohort = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
@@ -93,8 +93,10 @@ def process(selection)
       show_students
     when "3"
       save_students
+      puts "the list is saved"
     when "4"
-      load_students    
+      load_students
+      puts "the list is loaded and ready to be shown"    
     when "9"
       exit
     else
