@@ -7,12 +7,12 @@ def input_students
   while true do
     #get the name and set a defalut value for empty names.
     puts "Please enter the name of student or type 'stop' to finish."
-    name = gets.gsub("\n", "")
+    name = STDIN.gets.chomp
     break if name == 'stop'
     name = "N/A" if name.empty?
     #get info about cohort and set a default.
     puts "Enter student cohort"
-    cohort = gets.gsub("\n", "")
+    cohort = STDIN.gets.chomp
     if cohort.empty?
       cohort = "N/A"
     elsif !month.include?(cohort)
@@ -26,22 +26,7 @@ def input_students
     }
     puts @students.length == 1 ? "Now we have 1 student" : "Now we have #{@students.count} students"
   end
-end 
-def specific
-  specific_students = []
-  unless @students.empty?
-    puts "Enter the initial letter"
-    input = gets.gsub("\n", "").upcase
-    counter = 0
-    while counter < @students.length do
-      if @students[counter][:name][0] == input && @students[counter][:name].length < 12
-        specific_students.push(@students[counter])
-      end
-      counter += 1
-    end
-  end
-  specific_students
-end  
+end   
 def print_header
   puts "The students of Villains Academy".center(115)
   puts "------------".center(115)
@@ -81,13 +66,24 @@ def save_students
   end
   file.close
 end
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
+    name, cohort = line.gsub!("\n", "").split(",")
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+end
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exist?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end  
 end      
 def process(selection)
   case selection
@@ -104,12 +100,13 @@ def process(selection)
     else
       puts "I don't Know what you mean, try again"
   end
-end          
+end 
 #adding an intractive menu
 def intractive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
+try_load_students
 intractive_menu        
