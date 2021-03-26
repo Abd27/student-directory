@@ -62,7 +62,7 @@ def specific(names)
       end
       counter += 1
     end
-  end  
+  end
   specific_students
 end  
 def print_header
@@ -79,15 +79,31 @@ end
 def print_footer(names)
   puts names.count == 1 ? "Overall, we have #{names.count} great student for this catagory" : "Overall, we have #{names.count} great students for this catagory"
 end
-
-       
-
-#now calling the methods
-students = specific(arrange_by_cohort(input_students))
-if !students.empty?
-  print_header
-  print_specific(students)
-  print_footer(students)
-else
-  puts "There are no students on the list"
-end 
+#adding an intractive menu
+def intractive_menu
+students = []
+loop do
+  #print all the options in menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+  selection = gets.chomp
+  case selection
+    when "1"
+      students = input_students
+    when "2"    
+      if !students.empty?
+        print_header
+        print_specific(students)
+        print_footer(students)
+      else
+        puts "There are no students on the list"
+      end
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
+end
+intractive_menu        
