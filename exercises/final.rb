@@ -7,8 +7,9 @@ def input_students
   
   while true do
     #get the name.
-    puts "Please enter the name of student"
+    puts "Please enter the name of student or type 'stop' to finish."
     name = gets.gsub("\n", "")
+    break if name == 'stop'
     #get info about cohort
     puts "Enter student cohort"
     cohort = gets.gsub("\n", "")
@@ -55,15 +56,17 @@ def arrange_by_cohort(names)
 end  
 def specific(names)
   specific_students = []
-  puts "Enter the initial letter"
-  input = gets.gsub("\n", "").upcase
-  counter = 0
-  while counter < names.length do
-    if names[counter][:name][0] == input && names[counter][:name].length < 12
-      specific_students.push(names[counter])
+  unless names.empty?
+    puts "Enter the initial letter"
+    input = gets.gsub("\n", "").upcase
+    counter = 0
+    while counter < names.length do
+      if names[counter][:name][0] == input && names[counter][:name].length < 12
+        specific_students.push(names[counter])
+      end
+      counter += 1
     end
-    counter += 1
-  end
+  end  
   specific_students
 end  
 def print_header
@@ -85,7 +88,10 @@ end
 
 #now calling the methods
 students = specific(arrange_by_cohort(input_students))
-print_header
-print_specific(students)
-print_footer(students)
-
+if !students.empty?
+  print_header
+  print_specific(students)
+  print_footer(students)
+else
+  puts "There are no students on the list"
+end  
