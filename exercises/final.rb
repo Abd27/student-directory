@@ -8,10 +8,10 @@ def input_students
   while true do
     #get the name.
     puts "Please enter the name of student"
-    name = gets.chomp
+    name = gets.gsub("\n", "")
     #get info about cohort
     puts "Enter student cohort"
-    cohort = gets.chomp
+    cohort = gets.gsub("\n", "")
     #if cohort is not entered set a default value of 'N/A.'
     name = "N/A" if name.empty?
     if cohort.empty?
@@ -22,13 +22,13 @@ def input_students
     end
     #get info about hobby.
     puts "Enter hobby"
-    hobby = gets.chomp
+    hobby = gets.gsub("\n", "")
     #get info about country of birth.
     puts "Enter student's country of birth"
-    cob = gets.chomp
+    cob = gets.gsub("\n", "")
     #get info about height.
     puts "Enter student height in cms"
-    height = gets.chomp
+    height = gets.gsub("\n", "")
     #add a student hash to our array.
     students << {
       name: name,
@@ -41,7 +41,7 @@ def input_students
     puts students.length == 1 ? "Now we have #{students.count} student" : "Now we have #{students.count} students"  
      #get another name from user.
      puts "press return to add another student or type 'stop' to finish"
-     input = gets.chomp
+     input = gets.gsub("\n", "")
      break if input == "stop"
   end
   #return the student array.
@@ -56,7 +56,7 @@ end
 def specific(names)
   specific_students = []
   puts "Enter the initial letter"
-  input = gets.chomp.upcase
+  input = gets.gsub("\n", "").upcase
   counter = 0
   while counter < names.length do
     if names[counter][:name][0] == input && names[counter][:name].length < 12
