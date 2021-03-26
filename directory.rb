@@ -1,37 +1,33 @@
+#creat a main object variable to store names accessible to all methods.
+@students = []
 def input_students
-  #create an empty array.
+  #create an array to test for typos.
   month = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
   'august', 'september', 'octobar', 'november', 'december', 'N/A']
-  #create an empty array.
-  students = []
-  
   while true do
-    #get the name.
+    #get the name and set a defalut value for empty names.
     puts "Please enter the name of student or type 'stop' to finish."
     name = gets.gsub("\n", "")
     break if name == 'stop'
-    #get info about cohort
+    name = "N/A" if name.empty?
+    #get info about cohort and set a default.
     puts "Enter student cohort"
     cohort = gets.gsub("\n", "")
-    #if cohort is not entered set a default value of 'N/A.'
-    name = "N/A" if name.empty?
     if cohort.empty?
       cohort = "N/A"
     elsif !month.include?(cohort)
       puts "invalid cohort, re-enter the name and cohort"
       next 
     end
-    #get info about hobby.
+    #get additional info.
     puts "Enter hobby"
     hobby = gets.gsub("\n", "")
-    #get info about country of birth.
     puts "Enter student's country of birth"
     cob = gets.gsub("\n", "")
-    #get info about height.
     puts "Enter student height in cms"
     height = gets.gsub("\n", "")
     #add a student hash to our array.
-    students << {
+    @students << {
       name: name,
       month_index: month.index(cohort), 
       cohort: cohort.to_sym,
@@ -39,26 +35,23 @@ def input_students
       cob: cob,
       height: height
       }
-    puts students.length == 1 ? "Now we have #{students.count} student" : "Now we have #{students.count} students"
+    puts @students.length == 1 ? "Now we have 1 student" : "Now we have #{@students.count} students"
   end
-  #return the student array.
-  students
 end
-def arrange_by_cohort(names)
-  arranged = names.sort_by do |student|
+def arrange_by_cohort
+  @students.sort_by! do |student|
     student[:month_index]
   end
-  arranged
 end  
-def specific(names)
+def specific
   specific_students = []
-  unless names.empty?
+  unless @students.empty?
     puts "Enter the initial letter"
     input = gets.gsub("\n", "").upcase
     counter = 0
-    while counter < names.length do
-      if names[counter][:name][0] == input && names[counter][:name].length < 12
-        specific_students.push(names[counter])
+    while counter < @students.length do
+      if @students[counter][:name][0] == input && @students[counter][:name].length < 12
+        specific_students.push(@students[counter])
       end
       counter += 1
     end
@@ -69,41 +62,48 @@ def print_header
   puts "The students of Villains Academy".center(115)
   puts "------------".center(115)
 end
-def print_specific(names)
+def print_students_list
   counter = 0
-  while counter < names.length do    
-    puts "#{counter + 1}. #{names[counter][:name]} (#{names[counter][:cohort]} cohort), hobby: #{names[counter][:hobby]}, C.O.B: #{names[counter][:cob]}, height: #{names[counter][:height]}cm".center(115)
+  while counter < @students.length do    
+    puts "#{counter + 1}. #{@students[counter][:name]} (#{@students[counter][:cohort]} cohort), hobby: #{@students[counter][:hobby]}, C.O.B: #{@students[counter][:cob]}, height: #{@students[counter][:height]}cm".center(115)
       counter += 1 
   end 
 end
-def print_footer(names)
-  puts names.count == 1 ? "Overall, we have #{names.count} great student for this catagory" : "Overall, we have #{names.count} great students for this catagory"
+def print_footer
+  puts @students.count == 1 ? "Overall, we have #{@students.count} great student for this catagory" : "Overall, we have #{@students.count} great students for this catagory"
 end
-#adding an intractive menu
-def intractive_menu
-students = []
-loop do
-  #print all the options in menu
+def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "9. Exit"
-  selection = gets.chomp
+end
+def show_students
+  if @students.empty?
+    puts "No students on the list yet"
+  else
+    arrange_by_cohort  
+    print_header
+    print_students_list
+    print_footer
+  end  
+end
+def process(selection)
   case selection
     when "1"
-      students = input_students
-    when "2"    
-      if !students.empty?
-        print_header
-        print_specific(students)
-        print_footer(students)
-      else
-        puts "There are no students on the list"
-      end
+      input_students
+    when "2"
+      show_students
     when "9"
       exit
     else
-      puts "I don't know what you meant, try again"
-    end
+      puts "I don't Know what you mean, try again"
+  end
+end          
+#adding an intractive menu
+def intractive_menu
+  loop do
+    print_menu
+    process(gets.chomp)
   end
 end
 intractive_menu        
