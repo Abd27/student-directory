@@ -19,30 +19,14 @@ def input_students
       puts "invalid cohort, re-enter the name and cohort"
       next 
     end
-    #get additional info.
-    puts "Enter hobby"
-    hobby = gets.gsub("\n", "")
-    puts "Enter student's country of birth"
-    cob = gets.gsub("\n", "")
-    puts "Enter student height in cms"
-    height = gets.gsub("\n", "")
     #add a student hash to our array.
     @students << {
-      name: name,
-      month_index: month.index(cohort), 
+      name: name, 
       cohort: cohort.to_sym,
-      hobby: hobby,
-      cob: cob,
-      height: height
-      }
+    }
     puts @students.length == 1 ? "Now we have 1 student" : "Now we have #{@students.count} students"
   end
-end
-def arrange_by_cohort
-  @students.sort_by! do |student|
-    student[:month_index]
-  end
-end  
+end 
 def specific
   specific_students = []
   unless @students.empty?
@@ -65,24 +49,24 @@ end
 def print_students_list
   counter = 0
   while counter < @students.length do    
-    puts "#{counter + 1}. #{@students[counter][:name]} (#{@students[counter][:cohort]} cohort), hobby: #{@students[counter][:hobby]}, C.O.B: #{@students[counter][:cob]}, height: #{@students[counter][:height]}cm".center(115)
+    puts "#{counter + 1}. #{@students[counter][:name]} (#{@students[counter][:cohort]} cohort)".center(115)
       counter += 1 
   end 
 end
 def print_footer
-  puts @students.count == 1 ? "Overall, we have #{@students.count} great student for this catagory" : "Overall, we have #{@students.count} great students for this catagory"
+  puts @students.count == 1 ? "Overall, we have #{@students.count} great student" : "Overall, we have #{@students.count} great students"
 end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to student.csv"
+  puts "4. Load the list from student.csv"
   puts "9. Exit"
 end
 def show_students
   if @students.empty?
     puts "No students on the list yet"
-  else
-    arrange_by_cohort  
+  else  
     print_header
     print_students_list
     print_footer
@@ -96,7 +80,15 @@ def save_students
     file.puts csv_line
   end
   file.close
-end  
+end
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end      
 def process(selection)
   case selection
     when "1"
@@ -104,7 +96,9 @@ def process(selection)
     when "2"
       show_students
     when "3"
-      save_students  
+      save_students
+    when "4"
+      load_students    
     when "9"
       exit
     else
