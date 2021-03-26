@@ -17,7 +17,7 @@ def input_students
     name = "N/A" if name.empty?
     if cohort.empty?
       cohort = "N/A"
-    elsif !month.include?(cohort.downcase)
+    elsif !month.include?(cohort)
       puts "invalid cohort, re-enter the name and cohort"
       next 
     end
@@ -39,11 +39,7 @@ def input_students
       cob: cob,
       height: height
       }
-    puts students.length == 1 ? "Now we have #{students.count} student" : "Now we have #{students.count} students"  
-     #get another name from user.
-     puts "press return to add another student or type 'stop' to finish"
-     input = gets.gsub("\n", "")
-     break if input == "stop"
+    puts students.length == 1 ? "Now we have #{students.count} student" : "Now we have #{students.count} students"
   end
   #return the student array.
   students
@@ -81,7 +77,7 @@ def print_specific(names)
   end 
 end
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students for this catagory"
+  puts names.count == 1 ? "Overall, we have #{names.count} great student for this catagory" : "Overall, we have #{names.count} great students for this catagory"
 end
 
        
