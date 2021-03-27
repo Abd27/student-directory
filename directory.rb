@@ -20,13 +20,13 @@ def input_students
       next 
     end
     #add a student hash to our array.
-    @students << {
-      name: name, 
-      cohort: cohort.to_sym,
-    }
+    update_student_list(name, cohort)
     puts @students.length == 1 ? "Now we have 1 student" : "Now we have #{@students.count} students"
   end
-end   
+end
+def update_student_list(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
+end    
 def print_header
   puts "The students of Villains Academy".center(115)
   puts "------------".center(115)
@@ -70,7 +70,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    update_student_list(name, cohort)
   end
   file.close
 end
