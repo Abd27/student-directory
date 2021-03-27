@@ -49,21 +49,21 @@ def show_students
     print_footer  
 end
 def save_students(filename)
-  file = File.open(filename, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end  
   end
-  file.close
 end
 def load_students(filename)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    update_student_list(name, cohort)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      update_student_list(name, cohort)
+    end
   end
-  file.close
 end
 def try_load_students(filename = "students.csv")
   filename = ARGV.first if !ARGV.empty?
@@ -86,12 +86,12 @@ def process(selection)
       puts "Enter the name of the file you wish to save to"
       filename = STDIN.gets.chomp
       save_students(filename)
-      puts "the list is saved"
+      puts "the list is saved".center(60, "`")
     when "4"
       puts "Enter the name of the file you want add list from"
       filename = STDIN.gets.chomp
       load_students(filename)
-      puts "the list is loaded and ready to be shown"    
+      puts "the list is loaded and ready to be shown".center(60, "`")    
     when "9"
       exit
     else
