@@ -74,14 +74,14 @@ def load_students(filename = "students.csv")
   end
   file.close
 end
-def try_load_students
-  filename = ARGV.first
+def try_load_students(filename = "students.csv")
+  filename = ARGV.first if !ARGV.empty?
   return if filename.nil?
   if File.exist?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}".center(60, "`")
   else
-    puts "Sorry, #{filename} doesn't exist."
+    puts "Sorry, #{filename} doesn't exist.".center(60,"`")
     exit
   end  
 end      
