@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 def input_students
   month = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
@@ -49,21 +50,17 @@ def show_students
     print_footer  
 end
 def save_students(filename)
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
-    end  
+      csv << [student[:name], student[:cohort]]
+    end
   end
 end
 def load_students(filename)
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(",")
-      update_student_list(name, cohort)
-    end
-  end
+  CSV.foreach(filename) do |line|
+    name, cohort = line
+    update_student_list(name, cohort)
+  end  
 end
 def try_load_students(filename = "students.csv")
   filename = ARGV.first if !ARGV.empty?
