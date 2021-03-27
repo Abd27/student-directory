@@ -1,16 +1,13 @@
-#creat a main object variable to store names accessible to all methods.
 @students = []
 def input_students
-  #create an array to test for typos.
   month = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
   'august', 'september', 'octobar', 'november', 'december', 'N/A']
-  while true do
-    #get the name and set a defalut value for empty names.
+  #changed while to loop
+  loop do
     puts "Please enter the name of student or type 'stop' to finish."
     name = STDIN.gets.chomp
     break if name == 'stop'
     name = "N/A" if name.empty?
-    #get info about cohort and set a default.
     puts "Enter student cohort"
     cohort = STDIN.gets.chomp
     if cohort.empty?
@@ -19,7 +16,6 @@ def input_students
       puts "invalid cohort, re-enter the name and cohort"
       next 
     end
-    #add a student hash to our array.
     update_student_list(name, cohort)
     puts @students.length == 1 ? "Now we have 1 student" : "Now we have #{@students.count} students"
   end
@@ -32,10 +28,9 @@ def print_header
   puts "------------".center(115)
 end
 def print_students_list
-  counter = 0
-  while counter < @students.length do    
-    puts "#{counter + 1}. #{@students[counter][:name]} (#{@students[counter][:cohort]} cohort)".center(115)
-      counter += 1 
+  #changed while loop to .each itirator
+  @students.each.with_index(1) do |student, index|    
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)".center(115)
   end 
 end
 def print_footer
@@ -48,14 +43,10 @@ def print_menu
   puts "4. Load the list from student.csv"
   puts "9. Exit"
 end
-def show_students
-  if @students.empty?
-    puts "No students on the list yet"
-  else  
+def show_students 
     print_header
     print_students_list
-    print_footer
-  end  
+    print_footer  
 end
 def save_students
   file = File.open("students.csv", "w")
