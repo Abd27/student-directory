@@ -3,7 +3,6 @@ require 'csv'
 def input_students
   month = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
   'august', 'september', 'octobar', 'november', 'december', 'N/A']
-  #changed while to loop
   loop do
     puts "Please enter the name of student or type 'stop' to finish."
     name = STDIN.gets.chomp
@@ -29,7 +28,6 @@ def print_header
   puts "------------".center(115)
 end
 def print_students_list
-  #changed while loop to .each itirator
   @students.each.with_index(1) do |student, index|    
     puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)".center(115)
   end 
