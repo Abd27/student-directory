@@ -48,8 +48,8 @@ def show_students
     print_students_list
     print_footer  
 end
-def save_students
-  file = File.open("students.csv", "w")
+def save_students(filename)
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
@@ -57,7 +57,7 @@ def save_students
   end
   file.close
 end
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
@@ -83,10 +83,14 @@ def process(selection)
     when "2"
       show_students
     when "3"
-      save_students
+      puts "Enter the name of the file you wish to save to"
+      filename = STDIN.gets.chomp
+      save_students(filename)
       puts "the list is saved"
     when "4"
-      load_students
+      puts "Enter the name of the file you want add list from"
+      filename = STDIN.gets.chomp
+      load_students(filename)
       puts "the list is loaded and ready to be shown"    
     when "9"
       exit
