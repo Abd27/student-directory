@@ -1,0 +1,1 @@
+eval quine="print 'eval quine=';p quine"
